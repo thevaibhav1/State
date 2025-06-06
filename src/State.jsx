@@ -101,7 +101,7 @@ const State = () => {
           ))}
         </select>
       </div>
-      {selectedCountry && selectedCity && selectState && (
+      {selectedCountry && selectedCity && selectedState && (
         <h5>
           <span className={style.h}>You Selected</span> {selectedCity},{" "}
           <span>{selectedState}</span>, <span>{selectedCountry}</span>
