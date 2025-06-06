@@ -27,47 +27,72 @@ const State = () => {
   };
 
   useEffect(() => {
-    const fetchCountries = async () => {
-      const response = await fetch(
-        "https://crio-location-selector.onrender.com/countries"
-      );
-      const data = await response.json();
-      setCountries(data);
-    };
-    fetchCountries();
+    try {
+      const fetchCountries = async () => {
+        const response = await fetch(
+          "https://crio-location-selector.onrender.com/countries"
+        );
+        if (!response.ok) {
+          console.log("Network response was not ok");
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setCountries(data);
+      };
+      fetchCountries();
+    } catch (error) {
+      console.error("Error fetching countries:", error);
+    }
   }, []);
 
   useEffect(() => {
-    if (selectedCountry !== "") {
-      const fetchStates = async () => {
-        const response = await fetch(
-          `https://crio-location-selector.onrender.com/country=${selectedCountry}/states`
-        );
-        const data = await response.json();
-        setStates(data);
-      };
-      fetchStates();
+    try {
+      if (selectedCountry !== "") {
+        const fetchStates = async () => {
+          const response = await fetch(
+            `https://crio-location-selector.onrender.com/country=${selectedCountry}/states`
+          );
+          if (!response.ok) {
+            console.log("Network response was not ok");
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setStates(data);
+        };
+        fetchStates();
+      }
+    } catch (error) {
+      console.error("Error fetching states:", error);
     }
   }, [selectedCountry]);
   useEffect(() => {
-    if (selectedState !== "") {
-      const fetchCities = async () => {
-        const response = await fetch(
-          `https://crio-location-selector.onrender.com/country=${selectedCountry}/state=${selectedState}/cities`
-        );
-        const data = await response.json();
-        setCities(data);
-      };
-      fetchCities();
-    }
-  }, [selectedState]);
+    try {
+      if (selectedState !== "") {
+        const fetchCities = async () => {
+          const response = await fetch(
+            `https://crio-location-selector.onrender.com/country=${selectedCountry}/state=${selectedState}/cities`
+          );
+          if (!response.ok) {
+            console.log("Network response was not ok");
+            throw new Error("Network response was not ok");
+          }
 
+          const data = await response.json();
+          setCities(data);
+        };
+        fetchCities();
+      }
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+    }
+  }, [selectedState, selectedCountry]);
+  // console.log(countries, states, cities);
   return (
     <>
       <h1>Select Location</h1>
       <div className={style.location}>
         <select value={selectedCountry} onChange={selectCountry}>
-          <option value="">Select Country</option>
+          <option value="select country">Select Country</option>
           {countries.map((country) => (
             <option key={country} value={country}>
               {country}
@@ -80,7 +105,7 @@ const State = () => {
           onChange={selectState}
           disabled={selectedCountry === ""}
         >
-          <option value="">Select State</option>
+          <option value="select state">Select State</option>
           {states.map((state) => (
             <option key={state} value={state}>
               {state}
@@ -93,7 +118,7 @@ const State = () => {
           onChange={selectCity}
           disabled={selectedState === ""}
         >
-          <option value="">Select City</option>
+          <option value="select city">Select City</option>
           {cities.map((city) => (
             <option key={city} value={city}>
               {city}
@@ -103,8 +128,9 @@ const State = () => {
       </div>
       {selectedCountry && selectedCity && selectedState && (
         <h5>
-          <span className={style.h}>You Selected</span> {selectedCity},{" "}
-          <span>{selectedState}</span>, <span>{selectedCountry}</span>
+          <span>You Selected</span>
+          {selectCity} <span>{selectedState}</span>,{" "}
+          <span>{selectCountry}</span>
         </h5>
       )}
     </>
