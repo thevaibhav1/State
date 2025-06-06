@@ -127,9 +127,11 @@ const State = () => {
         </select>
       </div>
       {selectedCountry && selectedCity && selectedState && (
-        <span>
-          You Selected {selectedCity}, {selectedState} , {selectedCountry}
-        </span>
+        <h5>
+          <span>
+            You Selected {selectedCity}, {selectedState} , {selectedCountry}
+          </span>
+        </h5>
       )}
     </>
   );
