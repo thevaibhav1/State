@@ -1,0 +1,21 @@
+h1{
+    text-align: center;
+}
+.location{
+    display: flex;
+        justify-content: center;
+        height: 35px;
+        gap: 20px;
+}
+h5{
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+.h{
+    color: black;
+}
+span{
+    color: gray;
+    font-size: 14px;
+}
