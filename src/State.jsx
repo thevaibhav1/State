@@ -27,22 +27,22 @@ const State = () => {
   };
 
   useEffect(() => {
-    try {
-      const fetchCountries = async () => {
+    const fetchCountries = async () => {
+      try {
         const response = await fetch(
           "https://crio-location-selector.onrender.com/countries"
         );
         if (!response.ok) {
-          console.log("Network response was not ok");
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
         setCountries(data);
-      };
-      fetchCountries();
-    } catch (error) {
-      console.error("Error fetching countries:", error);
-    }
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+        setCountries([]);
+      }
+    };
+    fetchCountries();
   }, []);
 
   useEffect(() => {
