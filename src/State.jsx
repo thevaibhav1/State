@@ -46,23 +46,23 @@ const State = () => {
   }, []);
 
   useEffect(() => {
-    try {
-      if (selectedCountry !== "") {
-        const fetchStates = async () => {
+    if (selectedCountry !== "") {
+      const fetchStates = async () => {
+        try {
           const response = await fetch(
             `https://crio-location-selector.onrender.com/country=${selectedCountry}/states`
           );
           if (!response.ok) {
-            console.log("Network response was not ok");
             throw new Error("Network response was not ok");
           }
           const data = await response.json();
           setStates(data);
-        };
-        fetchStates();
-      }
-    } catch (error) {
-      console.error("Error fetching states:", error);
+        } catch (error) {
+          console.error("Error fetching states:", error);
+          setStates([]);
+        }
+      };
+      fetchStates();
     }
   }, [selectedCountry]);
   useEffect(() => {
